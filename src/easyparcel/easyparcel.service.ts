@@ -1,4 +1,11 @@
-import { HttpService, Inject, Injectable, LoggerService } from '@nestjs/common';
+import {
+  HttpException,
+  HttpService,
+  HttpStatus,
+  Inject,
+  Injectable,
+  LoggerService,
+} from '@nestjs/common';
 import {
   CONFIG_OPTIONS,
   EasyparcelOptions,
@@ -42,6 +49,9 @@ export class EasyparcelService {
 
     const handleResponse = (response) => {
       const data = response.data;
+      if (data.api_status !== 'Success') {
+        throw new HttpException(data.error_remark, HttpStatus.BAD_REQUEST);
+      }
       return data;
     };
 
