@@ -34,10 +34,6 @@ export class EasyparcelService {
     this.setBaseUrl();
   }
 
-  private greeting() {
-    return 'Hello World API wrapper';
-  }
-
   private setBaseUrl() {
     if (this.sandbox === false) {
       this.baseUrl = this.liveUrl;
@@ -48,16 +44,6 @@ export class EasyparcelService {
 
   private getUrl(action: string) {
     return `${this.baseUrl}${action}`;
-  }
-
-  listAll() {
-    return `
-    ${this.apiKey}
-    ${this.sandbox}
-    ${this.demoUrl}
-    ${this.liveUrl}
-    ${this.baseUrl}
-    `;
   }
 
   private getApiCaller(httpMethod: HttpMethod, action: string) {
