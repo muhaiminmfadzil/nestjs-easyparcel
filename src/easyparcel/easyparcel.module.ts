@@ -1,7 +1,8 @@
-import { DynamicModule, HttpModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, HttpModule, Module } from '@nestjs/common';
 import { CONFIG_OPTIONS, EasyparcelOptions } from './easyparcel.definition';
 import { EasyparcelService } from './easyparcel.service';
 
+@Global()
 @Module({})
 export class EasyparcelModule {
   static forRoot(options: EasyparcelOptions): DynamicModule {

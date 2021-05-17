@@ -14,12 +14,12 @@ import {
 
 @Injectable()
 export class EasyparcelService {
-  sandbox: boolean;
+  private sandbox: boolean;
   private apiKey: string;
   private logService?: LoggerService;
-  private demoUrl: 'https://demo.connect.easyparcel.my/?ac=';
-  private liveUrl: 'https://connect.easyparcel.my/?ac=';
   private baseUrl: string;
+  private demoUrl: string;
+  private liveUrl: string;
 
   constructor(
     private httpService: HttpService,
@@ -29,10 +29,16 @@ export class EasyparcelService {
     this.sandbox = options.sandbox || false;
     this.apiKey = options.apiKey;
     this.logService = options.logger;
+    this.demoUrl = 'https://demo.connect.easyparcel.my/?ac=';
+    this.liveUrl = 'https://connect.easyparcel.my/?ac=';
     this.setBaseUrl();
   }
 
-  setBaseUrl() {
+  private greeting() {
+    return 'Hello World API wrapper';
+  }
+
+  private setBaseUrl() {
     if (this.sandbox === false) {
       this.baseUrl = this.liveUrl;
     } else {
@@ -40,8 +46,18 @@ export class EasyparcelService {
     }
   }
 
-  getUrl(action: string) {
+  private getUrl(action: string) {
     return `${this.baseUrl}${action}`;
+  }
+
+  listAll() {
+    return `
+    ${this.apiKey}
+    ${this.sandbox}
+    ${this.demoUrl}
+    ${this.liveUrl}
+    ${this.baseUrl}
+    `;
   }
 
   private getApiCaller(httpMethod: HttpMethod, action: string) {
