@@ -45,7 +45,7 @@ xdescribe('Easyparcel Wrong API key', () => {
   });
 });
 
-xdescribe('Easyparcel Service', () => {
+describe('Easyparcel Service', () => {
   let service: EasyparcelService;
 
   beforeEach(async () => {
@@ -78,6 +78,7 @@ xdescribe('Easyparcel Service', () => {
         send_state: 'png',
         send_country: 'MY',
         weight: 1,
+        exclude_fields: ['exclude_field'],
       });
       // Api call success
       expect(rate.api_status).toBe('Success');

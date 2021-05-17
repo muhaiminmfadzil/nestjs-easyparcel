@@ -14,4 +14,5 @@ export class RateCheckingDto {
   length?: number;
   height?: number;
   date_coll?: Date;
+  exclude_fields?: string[];
 }
