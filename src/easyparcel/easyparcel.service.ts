@@ -6,6 +6,7 @@ import {
   Injectable,
   LoggerService,
 } from '@nestjs/common';
+import { RateCheckingDto } from './dto/rate-checking.dto';
 import {
   CONFIG_OPTIONS,
   EasyparcelOptions,
@@ -14,23 +15,23 @@ import {
 
 @Injectable()
 export class EasyparcelService {
+  // Api endpoint
+  private readonly demoUrl = 'https://demo.connect.easyparcel.my/?ac=';
+  private readonly liveUrl = 'https://connect.easyparcel.my/?ac=';
+
   private sandbox: boolean;
   private apiKey: string;
   private logService?: LoggerService;
   private baseUrl: string;
-  private demoUrl: string;
-  private liveUrl: string;
 
   constructor(
-    private httpService: HttpService,
+    private readonly httpService: HttpService,
     @Inject(CONFIG_OPTIONS) options: EasyparcelOptions,
   ) {
     this.apiKey = options.apiKey;
     this.sandbox = options.sandbox || false;
     this.apiKey = options.apiKey;
     this.logService = options.logger;
-    this.demoUrl = 'https://demo.connect.easyparcel.my/?ac=';
-    this.liveUrl = 'https://connect.easyparcel.my/?ac=';
     this.setBaseUrl();
   }
 
@@ -50,11 +51,7 @@ export class EasyparcelService {
     const url = this.getUrl(action);
 
     const handleResponse = (response) => {
-      const data = response.data;
-      if (data.api_status !== 'Success') {
-        throw new HttpException(data.error_remark, HttpStatus.BAD_REQUEST);
-      }
-      return data;
+      return response.data;
     };
 
     const handlerError = (error) => {
@@ -72,7 +69,7 @@ export class EasyparcelService {
     }
 
     if (httpMethod === HttpMethod.DELETE) {
-      return (options = {}) => {
+      return (data = {}, options = {}) => {
         return this.httpService
           .delete(url, { ...options })
           .toPromise()
@@ -84,7 +81,7 @@ export class EasyparcelService {
     if (httpMethod === HttpMethod.POST) {
       return (data = {}, options = {}) => {
         return this.httpService
-          .post(url, data, { ...options })
+          .post(url, { api: this.apiKey, ...data }, { ...options })
           .toPromise()
           .then(handleResponse)
           .catch(handlerError);
@@ -94,7 +91,7 @@ export class EasyparcelService {
     if (httpMethod === HttpMethod.PUT) {
       return (data = {}, options = {}) => {
         return this.httpService
-          .put(url, data, { ...options })
+          .put(url, { api: this.apiKey, ...data }, { ...options })
           .toPromise()
           .then(handleResponse)
           .catch(handlerError);
@@ -104,11 +101,16 @@ export class EasyparcelService {
     if (httpMethod === HttpMethod.PATCH) {
       return (data = {}, options = {}) => {
         return this.httpService
-          .patch(url, data, { ...options })
+          .patch(url, { api: this.apiKey, ...data }, { ...options })
           .toPromise()
           .then(handleResponse)
           .catch(handlerError);
       };
     }
+  }
+
+  async getRate(data: RateCheckingDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPRateCheckingBulk');
+    return await api({ bulk: [data] });
   }
 }
