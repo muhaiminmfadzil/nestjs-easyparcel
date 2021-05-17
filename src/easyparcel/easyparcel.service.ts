@@ -6,6 +6,7 @@ import {
   Injectable,
   LoggerService,
 } from '@nestjs/common';
+import { buildMessage } from 'class-validator';
 import { RateCheckingDto } from './dto/rate-checking.dto';
 import {
   CONFIG_OPTIONS,
@@ -111,6 +112,9 @@ export class EasyparcelService {
 
   async getRate(data: RateCheckingDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPRateCheckingBulk');
-    return await api({ bulk: [data] });
+    const bulk = { ...data };
+    delete bulk.exclude_fields;
+    const exclude_fields = data.exclude_fields;
+    return await api({ bulk: [bulk], exclude_fields: [exclude_fields] });
   }
 }
