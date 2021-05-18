@@ -163,4 +163,18 @@ describe('Easyparcel Service', () => {
       expect(parcelStatus.result[0].order_no).toBe(orderNo);
     });
   });
+
+  describe('Tracking parcel details', () => {
+    it('should return tracking parcel details with success api status', async () => {
+      const fakeAwb = '238725129086';
+      const trackParcel = await service.trackParcel({
+        awb_no: fakeAwb,
+      });
+      // Api call success
+      expect(trackParcel.api_status).toBe('Success');
+      // Return result
+      expect(trackParcel).toHaveProperty('result');
+      expect(trackParcel.result[0].awb).toBe(fakeAwb);
+    });
+  });
 });

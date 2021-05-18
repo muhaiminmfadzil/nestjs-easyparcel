@@ -12,6 +12,7 @@ import { CheckParcelStatusDto } from './dto/check-parcel-status.dto';
 import { MakeOrderDto } from './dto/make-order.dto';
 import { OrderPaymentDto } from './dto/order-payment.dto';
 import { RateCheckingDto } from './dto/rate-checking.dto';
+import { TrackingParcelDto } from './dto/tracking-parcel.dto';
 import {
   CONFIG_OPTIONS,
   EasyparcelOptions,
@@ -139,6 +140,11 @@ export class EasyparcelService {
 
   async checkParcelStatus(data: CheckParcelStatusDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPParcelStatusBulk');
+    return await api({ bulk: [data] });
+  }
+
+  async trackParcel(data: TrackingParcelDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPTrackingBulk');
     return await api({ bulk: [data] });
   }
 }
