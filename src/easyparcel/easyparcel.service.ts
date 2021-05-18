@@ -1,14 +1,7 @@
-import {
-  HttpException,
-  HttpService,
-  HttpStatus,
-  Inject,
-  Injectable,
-  LoggerService,
-} from '@nestjs/common';
-import { buildMessage } from 'class-validator';
+import { HttpService, Inject, Injectable, LoggerService } from '@nestjs/common';
 import { CheckOrderStatusDto } from './dto/check-order-status.dto';
 import { CheckParcelStatusDto } from './dto/check-parcel-status.dto';
+import { ExpressOrderDto } from './dto/express-order-dto';
 import { MakeOrderDto } from './dto/make-order.dto';
 import { OrderPaymentDto } from './dto/order-payment.dto';
 import { RateCheckingDto } from './dto/rate-checking.dto';
@@ -117,9 +110,11 @@ export class EasyparcelService {
 
   async getRate(data: RateCheckingDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPRateCheckingBulk');
+    // Preparing data
     const bulk = { ...data };
     delete bulk.exclude_fields;
     const exclude_fields = data.exclude_fields;
+
     return await api({ bulk: [bulk], exclude_fields: [exclude_fields] });
   }
 
@@ -151,5 +146,17 @@ export class EasyparcelService {
   async checkCredit() {
     const api = this.getApiCaller(HttpMethod.POST, 'EPCheckCreditBalance');
     return await api();
+  }
+
+  async expressOrder(data: ExpressOrderDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPSubmitOrderBulkV3');
+    // Preparing data
+    const bulk = { ...data };
+    delete bulk.courier;
+    delete bulk.dropoff;
+    const courier = [...data.courier];
+    const dropoff = data.dropoff;
+
+    return await api({ bulk: [bulk], courier, dropoff });
   }
 }
