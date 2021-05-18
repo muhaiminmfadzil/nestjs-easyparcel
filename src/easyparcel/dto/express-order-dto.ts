@@ -1,14 +1,15 @@
-import { OmitType } from '@nestjs/mapped-types';
-import { MakeOrderDto } from './make-order.dto';
+import { MakeOrderBulk } from './make-order.dto';
 
-export class ExpressOrderDto extends OmitType(MakeOrderDto, [
-  'service_id',
-  'reference',
-  'hs_code',
-  'REQ_ID',
-] as const) {
-  // Required data
+interface ExpressOrderBulk
+  extends Omit<
+    MakeOrderBulk,
+    'service_id' | 'reference' | 'hs_code' | 'REQ_ID'
+  > {
   reference: string;
+}
+
+export class ExpressOrderDto {
   courier: string[];
   dropoff: number;
+  bulk: ExpressOrderBulk[];
 }

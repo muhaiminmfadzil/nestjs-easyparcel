@@ -1,26 +1,22 @@
-import { OmitType } from '@nestjs/mapped-types';
-import { RateCheckingDto } from './rate-checking.dto';
+import { RateCheckingBulk } from './rate-checking.dto';
 
-export class MakeOrderDto extends OmitType(RateCheckingDto, [
-  'date_coll',
-  'exclude_fields',
-] as const) {
+export interface MakeOrderBulk extends Omit<RateCheckingBulk, 'date_coll'> {
   // Required data
   content: string;
   value: number;
   service_id: string;
-  pick_point: string = '';
+  pick_point: string;
   pick_name: string;
   pick_contact: string;
   pick_addr1: string;
   pick_city: string;
-  send_point: string = '';
+  send_point: string;
   send_name: string;
   send_contact: string;
   send_addr1: string;
   send_city: string;
-  sms: boolean = false;
-  collect_date: string = '';
+  sms: boolean;
+  collect_date: string;
   send_email: string;
   // Optional data
   pick_company?: string;
@@ -36,4 +32,7 @@ export class MakeOrderDto extends OmitType(RateCheckingDto, [
   hs_code?: string;
   REQ_ID?: string;
   reference?: string;
+}
+export class MakeOrderDto {
+  bulk: MakeOrderBulk[];
 }
