@@ -4,10 +4,10 @@ export class RateCheckingDto {
   // Required data
   pick_code: string;
   pick_state: string;
-  pick_country: string;
+  pick_country: string = 'MY';
   send_code: string;
   send_state: string;
-  send_country: string;
+  send_country: string = 'MY';
   weight: number;
   // Optional data
   width?: number;

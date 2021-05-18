@@ -7,6 +7,8 @@ import {
   LoggerService,
 } from '@nestjs/common';
 import { buildMessage } from 'class-validator';
+import { MakeOrderDto } from './dto/make-order.dto';
+import { OrderPaymentDto } from './dto/order-payment.dto';
 import { RateCheckingDto } from './dto/rate-checking.dto';
 import {
   CONFIG_OPTIONS,
@@ -116,5 +118,15 @@ export class EasyparcelService {
     delete bulk.exclude_fields;
     const exclude_fields = data.exclude_fields;
     return await api({ bulk: [bulk], exclude_fields: [exclude_fields] });
+  }
+
+  async makeOrder(data: MakeOrderDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPSubmitOrderBulk');
+    return await api({ bulk: [data] });
+  }
+
+  async orderPayment(data: OrderPaymentDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPPayOrderBulk');
+    return await api({ bulk: [data] });
   }
 }
