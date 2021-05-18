@@ -5,7 +5,7 @@ import { EasyparcelService } from './easyparcel.service';
 
 const { APIKEY } = process.env;
 
-xdescribe('Easyparcel Wrong API key', () => {
+describe('Easyparcel Wrong API key', () => {
   let service: EasyparcelService;
 
   beforeEach(async () => {
@@ -84,6 +84,56 @@ describe('Easyparcel Service', () => {
       expect(rate.api_status).toBe('Success');
       // Return result
       expect(rate).toHaveProperty('result');
+      expect(rate.result[0].status).toBe('Success');
+    });
+  });
+
+  describe('Make and pay order', () => {
+    let orderNo: string;
+    it('should return order with success status', async () => {
+      const order = await service.makeOrder({
+        content: 'Baju',
+        value: 10,
+        weight: 1,
+        service_id: 'EP-CS023',
+        pick_point: '',
+        pick_name: 'Min',
+        pick_contact: '0123456789',
+        pick_addr1: 'Hello world',
+        pick_code: '08000',
+        pick_city: 'Sungai Petani',
+        pick_state: 'kdh',
+        pick_country: 'MY',
+        send_point: '',
+        send_name: 'Mon',
+        send_contact: '0123456789',
+        send_addr1: 'Hai world',
+        send_code: '55100',
+        send_city: 'Kuala Lumpur',
+        send_state: 'kul',
+        send_country: 'MY',
+        sms: false,
+        collect_date: '',
+        send_email: 'helloworld@gmail.com',
+      });
+      // Api call success
+      expect(order.api_status).toBe('Success');
+      // Return result
+      expect(order).toHaveProperty('result');
+      expect(order.result[0].status).toBe('Success');
+      // Save order no
+      orderNo = order.result[0].order_number;
+    });
+
+    it('should return payment order with success status', async () => {
+      const payment = await service.orderPayment({
+        order_no: orderNo,
+      });
+      // Api call success
+      expect(payment.api_status).toBe('Success');
+      // Return result
+      expect(payment).toHaveProperty('result');
+      expect(payment.result[0].orderno).toBe(orderNo);
     });
   });
 });
