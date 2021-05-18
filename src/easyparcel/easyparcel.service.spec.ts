@@ -187,4 +187,43 @@ describe('Easyparcel Service', () => {
       expect(credit).toHaveProperty('wallet');
     });
   });
+
+  describe('Express order', () => {
+    it('should return express order details with success api status', async () => {
+      const expressOrder = await service.expressOrder({
+        content: 'Baju',
+        value: 10,
+        weight: 1,
+        pick_point: '',
+        pick_name: 'Min',
+        pick_contact: '0123456789',
+        pick_addr1: 'Hello world',
+        pick_code: '08000',
+        pick_city: 'Sungai Petani',
+        pick_state: 'kdh',
+        pick_country: 'MY',
+        send_point: '',
+        send_name: 'Mon',
+        send_contact: '0123456789',
+        send_addr1: 'Hai world',
+        send_code: '55100',
+        send_city: 'Kuala Lumpur',
+        send_state: 'kul',
+        send_country: 'MY',
+        sms: false,
+        collect_date: '',
+        send_email: 'helloworld@gmail.com',
+        reference: 'Testing',
+        courier: ['Poslaju'],
+        dropoff: 1,
+      });
+      // Api call success
+      expect(expressOrder.api_status).toBe('Success');
+      // Return result
+      expect(expressOrder).toHaveProperty('result');
+      expect(expressOrder).toHaveProperty('result.summary');
+      expect(expressOrder).toHaveProperty('result.success');
+      expect(expressOrder).toHaveProperty('result.fail');
+    });
+  });
 });
