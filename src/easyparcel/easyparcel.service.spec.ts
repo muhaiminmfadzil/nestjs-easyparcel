@@ -69,7 +69,7 @@ describe('Easyparcel Service', () => {
   });
 
   describe('Get rate', () => {
-    it('should return rate with success status', async () => {
+    it('should return rate with success api status', async () => {
       const rate = await service.getRate({
         pick_code: '55100',
         pick_state: 'kul',
@@ -88,9 +88,11 @@ describe('Easyparcel Service', () => {
     });
   });
 
-  describe('Make and pay order', () => {
+  describe('Make and pay order, check order and parcel status', () => {
     let orderNo: string;
-    it('should return order with success status', async () => {
+
+    // Make order test
+    it('should return order with success api status', async () => {
       const order = await service.makeOrder({
         content: 'Baju',
         value: 10,
@@ -125,7 +127,8 @@ describe('Easyparcel Service', () => {
       orderNo = order.result[0].order_number;
     });
 
-    it('should return payment order with success status', async () => {
+    // Order payment test
+    it('should return payment order with success api status', async () => {
       const payment = await service.orderPayment({
         order_no: orderNo,
       });
@@ -134,6 +137,30 @@ describe('Easyparcel Service', () => {
       // Return result
       expect(payment).toHaveProperty('result');
       expect(payment.result[0].orderno).toBe(orderNo);
+    });
+
+    // Check order status test
+    it('should return order status with success api status', async () => {
+      const orderStatus = await service.checkOrderStatus({
+        order_no: orderNo,
+      });
+      // Api call success
+      expect(orderStatus.api_status).toBe('Success');
+      // Return result
+      expect(orderStatus).toHaveProperty('result');
+      expect(orderStatus.result[0].order_no).toBe(orderNo);
+    });
+
+    // Check parcel status test
+    it('should return parcel status with success api status', async () => {
+      const parcelStatus = await service.checkParcelStatus({
+        order_no: orderNo,
+      });
+      // Api call success
+      expect(parcelStatus.api_status).toBe('Success');
+      // Return result
+      expect(parcelStatus).toHaveProperty('result');
+      expect(parcelStatus.result[0].order_no).toBe(orderNo);
     });
   });
 });
