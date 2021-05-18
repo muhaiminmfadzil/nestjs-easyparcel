@@ -1,10 +1,27 @@
 {
-  "name": "nestjs-easyparcel",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "name": "@muhaimin/nestjs-easyparcel",
+  "version": "1.0.0",
+  "description": "Easyparcel API wrapper",
+  "author": "Muhaimin <muhaiminmfadzil@gmail.com>",
   "license": "UNLICENSED",
+  "readmeFilename": "README.md",
+  "main": "dist/index.js",
+  "files": [
+    "dist/**/*",
+    "*.md"
+  ],
+  "keywords": [
+    "nestjs",
+    "easyparcel"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/muhaiminmfadzil/nestjs-easyparcel"
+  },
+  "bugs": "https://github.com/muhaiminmfadzil/nestjs-easyparcel/issues",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -23,7 +40,11 @@
   "dependencies": {
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
+    "@nestjs/mapped-types": "^0.4.1",
     "@nestjs/platform-express": "^7.6.15",
+    "class-transformer": "^0.4.0",
+    "class-validator": "^0.13.1",
+    "dotenv": "^9.0.2",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6"
