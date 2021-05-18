@@ -1,7 +1,7 @@
 {
-  "name": "@muhaimin/nestjs-easyparcel",
+  "name": "nestjs-easyparcel",
   "version": "1.0.0",
-  "description": "Easyparcel API wrapper",
+  "description": "Easyparcel API wrapper for NestJS framework",
   "author": "Muhaimin <muhaiminmfadzil@gmail.com>",
   "license": "UNLICENSED",
   "readmeFilename": "README.md",
