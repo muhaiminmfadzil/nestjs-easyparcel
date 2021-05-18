@@ -7,6 +7,8 @@ import {
   LoggerService,
 } from '@nestjs/common';
 import { buildMessage } from 'class-validator';
+import { CheckOrderStatusDto } from './dto/check-order-status.dto';
+import { CheckParcelStatusDto } from './dto/check-parcel-status.dto';
 import { MakeOrderDto } from './dto/make-order.dto';
 import { OrderPaymentDto } from './dto/order-payment.dto';
 import { RateCheckingDto } from './dto/rate-checking.dto';
@@ -127,6 +129,16 @@ export class EasyparcelService {
 
   async orderPayment(data: OrderPaymentDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPPayOrderBulk');
+    return await api({ bulk: [data] });
+  }
+
+  async checkOrderStatus(data: CheckOrderStatusDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPOrderStatusBulk');
+    return await api({ bulk: [data] });
+  }
+
+  async checkParcelStatus(data: CheckParcelStatusDto) {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPParcelStatusBulk');
     return await api({ bulk: [data] });
   }
 }
