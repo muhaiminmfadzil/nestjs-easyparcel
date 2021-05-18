@@ -1,4 +1,8 @@
+interface OrderPaymentBulk {
+  order_no: string;
+}
+
 export class OrderPaymentDto {
   // Required data
-  order_no: string;
+  bulk: OrderPaymentBulk[];
 }

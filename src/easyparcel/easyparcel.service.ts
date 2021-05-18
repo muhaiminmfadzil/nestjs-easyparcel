@@ -111,36 +111,35 @@ export class EasyparcelService {
   async getRate(data: RateCheckingDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPRateCheckingBulk');
     // Preparing data
-    const bulk = { ...data };
-    delete bulk.exclude_fields;
-    const exclude_fields = data.exclude_fields;
+    const bulk = [...data.bulk];
+    const exclude_fields = data.exclude_fields ? [...data.exclude_fields] : [];
 
-    return await api({ bulk: [bulk], exclude_fields: [exclude_fields] });
+    return await api({ bulk, exclude_fields });
   }
 
   async makeOrder(data: MakeOrderDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPSubmitOrderBulk');
-    return await api({ bulk: [data] });
+    return await api({ bulk: [...data.bulk] });
   }
 
   async orderPayment(data: OrderPaymentDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPPayOrderBulk');
-    return await api({ bulk: [data] });
+    return await api({ bulk: [...data.bulk] });
   }
 
   async checkOrderStatus(data: CheckOrderStatusDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPOrderStatusBulk');
-    return await api({ bulk: [data] });
+    return await api({ bulk: [...data.bulk] });
   }
 
   async checkParcelStatus(data: CheckParcelStatusDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPParcelStatusBulk');
-    return await api({ bulk: [data] });
+    return await api({ bulk: [...data.bulk] });
   }
 
   async trackParcel(data: TrackingParcelDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPTrackingBulk');
-    return await api({ bulk: [data] });
+    return await api({ bulk: [...data.bulk] });
   }
 
   async checkCredit() {
@@ -151,12 +150,10 @@ export class EasyparcelService {
   async expressOrder(data: ExpressOrderDto) {
     const api = this.getApiCaller(HttpMethod.POST, 'EPSubmitOrderBulkV3');
     // Preparing data
-    const bulk = { ...data };
-    delete bulk.courier;
-    delete bulk.dropoff;
+    const bulk = [...data.bulk];
     const courier = [...data.courier];
     const dropoff = data.dropoff;
 
-    return await api({ bulk: [bulk], courier, dropoff });
+    return await api({ bulk, courier, dropoff });
   }
 }
