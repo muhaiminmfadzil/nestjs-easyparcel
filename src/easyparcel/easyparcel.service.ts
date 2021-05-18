@@ -147,4 +147,9 @@ export class EasyparcelService {
     const api = this.getApiCaller(HttpMethod.POST, 'EPTrackingBulk');
     return await api({ bulk: [data] });
   }
+
+  async checkCredit() {
+    const api = this.getApiCaller(HttpMethod.POST, 'EPCheckCreditBalance');
+    return await api();
+  }
 }

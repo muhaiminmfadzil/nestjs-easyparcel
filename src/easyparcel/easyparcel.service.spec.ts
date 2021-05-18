@@ -177,4 +177,14 @@ describe('Easyparcel Service', () => {
       expect(trackParcel.result[0].awb).toBe(fakeAwb);
     });
   });
+
+  describe('Check credit', () => {
+    it('should return credit details with success api status', async () => {
+      const credit = await service.checkCredit();
+      // Api call success
+      expect(credit.api_status).toBe('Success');
+      // Return result
+      expect(credit).toHaveProperty('wallet');
+    });
+  });
 });
