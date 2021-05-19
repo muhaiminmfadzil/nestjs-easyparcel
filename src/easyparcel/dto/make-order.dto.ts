@@ -17,7 +17,6 @@ export interface MakeOrderBulk extends Omit<RateCheckingBulk, 'date_coll'> {
   send_city: string;
   sms: boolean;
   collect_date: string;
-  send_email: string;
   // Optional data
   pick_company?: string;
   pick_mobile?: string;
@@ -29,6 +28,7 @@ export interface MakeOrderBulk extends Omit<RateCheckingBulk, 'date_coll'> {
   send_addr2?: string;
   send_addr3?: string;
   send_addr4?: string;
+  send_email?: string;
   hs_code?: string;
   REQ_ID?: string;
   reference?: string;
