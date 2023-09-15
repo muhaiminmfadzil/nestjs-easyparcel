@@ -4,9 +4,7 @@
 
 ## Description
 
-Easyparcel api wrapper for NestJs
-
-## Installation
+Easyparcel api wrapper for NestJS
 
 ## License
 
